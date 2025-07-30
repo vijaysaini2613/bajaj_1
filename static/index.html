@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Q&A System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px dashed #dee2e6;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #007bff;
+            background: #f0f7ff;
+        }
+
+        .upload-section.dragover {
+            border-color: #28a745;
+            background: #f0fff0;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            margin: 10px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .questions-section {
+            margin: 30px 0;
+        }
+
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            margin: 10px 0;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .ask-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .ask-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .ask-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .answer-card {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .question {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .answer {
+            color: #212529;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .confidence {
+            background: #e9ecef;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .source-chunks {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #c3e6cb;
+        }
+
+        .file-info {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #ffeeba;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Document Q&A System</h1>
+            <p>Upload your insurance policies, legal documents, or PDFs and ask questions to get instant, accurate
+                answers</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Document Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <h3>📄 Upload Your Document</h3>
+                <p>Drag and drop your PDF file here, or click to browse</p>
+
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,.docx,.doc">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Choose File
+                </button>
+
+                <div style="margin: 20px 0;">
+                    <strong>OR</strong>
+                </div>
+
+                <input type="url" id="urlInput" class="url-input"
+                    placeholder="Enter URL to PDF document (e.g., https://example.com/policy.pdf)">
+                <button class="upload-btn" onclick="loadFromUrl()">Load from URL</button>
+            </div>
+
+            <div id="fileInfo" class="file-info" style="display: none;"></div>
+
+            <!-- Questions Section -->
+            <div class="questions-section">
+                <h3>❓ Ask Your Questions</h3>
+                <p>Enter your questions about the document (one per line):</p>
+                <textarea id="questionsInput" class="question-input"
+                    placeholder="Examples:&#10;What is the coverage limit for medical expenses?&#10;What are the policy exclusions?&#10;What is the deductible amount?&#10;When does this policy expire?"></textarea>
+
+                <button class="ask-btn" id="askBtn" onclick="processQuestions()">
+                    🚀 Get Answers
+                </button>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Processing your document and generating answers...</p>
+                <p><small>This may take a few seconds</small></p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <h3>💡 Answers</h3>
+                <div id="answersContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFile = null;
+        let documentUrl = null;
+
+        // File upload handling
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                uploadedFile = file;
+                documentUrl = null;
+                showFileInfo(`📄 File selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+            }
+        });
+
+        // Drag and drop handling
+        const uploadSection = document.getElementById('uploadSection');
+
+        uploadSection.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', function (e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', function (e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+                    uploadedFile = file;
+                    documentUrl = null;
+                    document.getElementById('fileInput').files = files;
+                    showFileInfo(`📄 File dropped: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+                } else {
+                    showError('Please upload a PDF file only.');
+                }
+            }
+        });
+
+        function loadFromUrl() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (url) {
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    documentUrl = url;
+                    uploadedFile = null;
+                    showFileInfo(`🌐 URL loaded: ${url}`);
+                    document.getElementById('urlInput').value = '';
+                } else {
+                    showError('Please enter a valid URL starting with http:// or https://');
+                }
+            }
+        }
+
+        function showFileInfo(message) {
+            const fileInfo = document.getElementById('fileInfo');
+            fileInfo.textContent = message;
+            fileInfo.style.display = 'block';
+            setTimeout(() => {
+                fileInfo.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = `<div class="error">❌ ${message}</div>`;
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = `<div class="success">✅ ${message}</div>`;
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        async function processQuestions() {
+            const questions = document.getElementById('questionsInput').value.trim();
+
+            if (!questions) {
+                showError('Please enter at least one question.');
+                return;
+            }
+
+            if (!uploadedFile && !documentUrl) {
+                showError('Please upload a file or enter a URL first.');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('askBtn').disabled = true;
+
+            try {
+                const questionList = questions.split('\n').map(q => q.trim()).filter(q => q);
+
+                let documentData;
+                if (uploadedFile) {
+                    // Convert file to base64
+                    const base64 = await fileToBase64(uploadedFile);
+                    documentData = {
+                        type: 'pdf',
+                        content: base64
+                    };
+                } else {
+                    documentData = {
+                        type: 'url',
+                        content: documentUrl
+                    };
+                }
+
+                const requestData = {
+                    documents: [documentData],
+                    questions: questionList
+                };
+
+                const response = await fetch('/hackrx/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer your-secure-bearer-token-here'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                displayResults(result);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError(`Failed to process questions: ${error.message}`);
+            } finally {
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('askBtn').disabled = false;
+            }
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function displayResults(result) {
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = '';
+
+            if (result.answers && result.answers.length > 0) {
+                result.answers.forEach((answer, index) => {
+                    const answerCard = document.createElement('div');
+                    answerCard.className = 'answer-card';
+
+                    const confidencePercent = (answer.confidence * 100).toFixed(1);
+                    const confidenceColor = answer.confidence > 0.8 ? '#28a745' :
+                        answer.confidence > 0.5 ? '#ffc107' : '#dc3545';
+
+                    answerCard.innerHTML = `
+                        <div class="question">Q${index + 1}: ${answer.question}</div>
+                        <div class="answer">${answer.answer}</div>
+                        <div class="confidence" style="background-color: ${confidenceColor}20; color: ${confidenceColor};">
+                            Confidence: ${confidencePercent}%
+                        </div>
+                        ${answer.source_chunks && answer.source_chunks.length > 0 ? `
+                            <div class="source-chunks">
+                                <strong>📚 Source:</strong><br>
+                                ${answer.source_chunks.slice(0, 2).map(chunk =>
+                        `<div style="margin: 5px 0; font-size: 0.9em;">"${chunk.substring(0, 200)}${chunk.length > 200 ? '...' : ''}"</div>`
+                    ).join('')}
+                            </div>
+                        ` : ''}
+                    `;
+
+                    container.appendChild(answerCard);
+                });
+
+                // Show processing time
+                if (result.processing_time) {
+                    const timeInfo = document.createElement('div');
+                    timeInfo.className = 'success';
+                    timeInfo.innerHTML = `⚡ Processing completed in ${result.processing_time.toFixed(1)} seconds`;
+                    container.appendChild(timeInfo);
+                }
+            } else {
+                showError('No answers were generated. Please try rephrasing your questions.');
+            }
+
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        // Add sample questions on page load
+        window.onload = function () {
+            const sampleQuestions = [
+                "What is the coverage limit for medical expenses?",
+                "What are the policy exclusions?",
+                "What is the deductible amount?",
+                "When does this policy expire?"
+            ].join('\n');
+
+            document.getElementById('questionsInput').placeholder = `Enter your questions here (one per line):\n\nExamples:\n${sampleQuestions}`;
+        };
+    </script>
+</body>
+
+</html>

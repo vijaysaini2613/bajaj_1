@@ -1,0 +1,42 @@
+# Render deployment configuration
+# This file is used by Render.com for deployment
+
+# Build command: pip install -r requirements.txt
+# Start command: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+# Environment variables to set in Render dashboard:
+# - OPENAI_API_KEY: Your OpenAI API key
+# - BEARER_TOKEN: Secure token for API authentication
+# - API_SECRET_KEY: Secret key for JWT tokens
+# - ENVIRONMENT: production
+# - LOG_LEVEL: INFO
+
+version: 2
+
+services:
+  - type: web
+    name: document-qa-system
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: MAX_CHUNK_SIZE
+        value: 1000
+      - key: CHUNK_OVERLAP
+        value: 200
+      - key: TOP_K_RESULTS
+        value: 5
+      - key: MODEL_NAME
+        value: gpt-4
+      - key: EMBEDDING_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+      - key: MAX_DOCUMENTS
+        value: 10
+      - key: MAX_QUESTIONS
+        value: 20

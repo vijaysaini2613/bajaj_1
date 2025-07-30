@@ -1,0 +1,204 @@
+{
+  "answers": [
+    {
+      "question": "What is the sum insured under this policy?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What are the coverage benefits provided?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is covered under hospitalization?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What are the pre-hospitalization expenses covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What are the post-hospitalization expenses covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What are the general exclusions in this policy?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What medical conditions are not covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "Are pre-existing diseases covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What treatments are excluded from coverage?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the policy period?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the waiting period for coverage?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the waiting period for pre-existing diseases?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the room rent limit?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the ICU room rent limit?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the claim settlement process?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What documents are required for claims?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the cashless facility procedure?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the reimbursement claim procedure?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the claim intimation time limit?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "How is the premium calculated?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What are the renewal conditions?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "Is there a grace period for premium payment?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What happens if premium is not paid on time?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What additional benefits are provided?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "Is ambulance service covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "Are health check-ups covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "Is home nursing covered?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    },
+    {
+      "question": "What is the ayush treatment coverage?",
+      "answer": "An error occurred while processing this question. Please try again.",
+      "confidence": 0.0,
+      "source_chunks": [],
+      "reasoning": "Error: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
+    }
+  ],
+  "processing_time": 0.0,
+  "status": "success",
+  "timestamp": "2025-07-30T18:54:52.345342",
+  "metadata": null
+}
