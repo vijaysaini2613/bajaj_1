@@ -5,7 +5,7 @@
 # Start command: uvicorn main:app --host 0.0.0.0 --port $PORT
 
 # Environment variables to set in Render dashboard:
-# - OPENAI_API_KEY: Your OpenAI API key
+# - GEMINI_API_KEY: Your Google Gemini API key
 # - BEARER_TOKEN: Secure token for API authentication
 # - API_SECRET_KEY: Secret key for JWT tokens
 # - ENVIRONMENT: production
@@ -18,6 +18,7 @@ services:
     name: document-qa-system
     env: python
     plan: starter
+    runtime: python-3.11.9
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
