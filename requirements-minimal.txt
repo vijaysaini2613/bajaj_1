@@ -1,0 +1,22 @@
+# Ultra-minimal requirements for deployment
+# Avoids all packages that require compilation
+
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+google-generativeai==0.3.2
+
+# Document processing - pure Python
+pypdf==3.17.4
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Auth and utilities - pure Python
+python-jose[cryptography]==3.3.0
+python-dotenv==1.0.0
+aiofiles==23.2.1
+httpx==0.25.2
+
+# Note: This version uses simple text matching instead of ML-based vector search
+# Performance will be reduced but deployment will be reliable

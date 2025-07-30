@@ -12,13 +12,17 @@ from app.models.request_models import DocumentQARequest
 from app.models.response_models import DocumentQAResponse
 from app.services.document_processor import DocumentProcessor
 
-# Try to import FAISS-based vector search, fallback to lightweight version
+# Try to import vector search services with fallbacks
 try:
     from app.services.vector_search import VectorSearchService
     VECTOR_SEARCH_TYPE = "FAISS"
 except ImportError:
-    from app.services.lightweight_vector_search import LightweightVectorSearch as VectorSearchService
-    VECTOR_SEARCH_TYPE = "Lightweight"
+    try:
+        from app.services.lightweight_vector_search import LightweightVectorSearch as VectorSearchService
+        VECTOR_SEARCH_TYPE = "Lightweight"
+    except ImportError:
+        from app.services.basic_text_search import BasicTextSearch as VectorSearchService
+        VECTOR_SEARCH_TYPE = "Basic"
 
 from app.services.llm_service import LLMService
 from app.utils.logger import setup_logger

@@ -1,4 +1,12 @@
-# Render deployment configuration
+# Render deployservices:
+  - type: web
+    name: document-qa-system
+    env: python
+    plan: starter
+    runtime: python-3.11.9
+    buildCommand: pip install --no-cache-dir -r requirements-minimal.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthiguration
 # This file is used by Render.com for deployment
 
 # Build command: pip install -r requirements.txt
