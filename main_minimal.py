@@ -122,13 +122,29 @@ async def process_documents_and_answer(request: Request):
     Simplified version without Pydantic validation
     """
     try:
+        print("=== Starting request processing ===")
+        
         # Simple authentication
         if not verify_token(request):
+            print("Authentication failed")
             raise HTTPException(status_code=403, detail="Not authenticated")
         
+        print("Authentication successful")
+        
         # Parse request manually
-        body = await request.json()
-        qa_request = SimpleDocumentQARequest(body)
+        try:
+            body = await request.json()
+            print(f"Request body received: {str(body)[:200]}...")
+        except Exception as e:
+            print(f"Failed to parse JSON: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Invalid JSON: {str(e)}")
+        
+        try:
+            qa_request = SimpleDocumentQARequest(body)
+            print("Request object created successfully")
+        except Exception as e:
+            print(f"Failed to create request object: {str(e)}")
+            raise HTTPException(status_code=422, detail=f"Request validation failed: {str(e)}")
         
         start_time = time.time()
         
@@ -136,16 +152,31 @@ async def process_documents_and_answer(request: Request):
         
         # Process documents and extract text
         all_chunks = []
-        for doc in qa_request.documents:
-            print(f"Processing document of type: {doc.type}")
-            chunks = await document_processor.process_document(doc.type, doc.content, doc.filename)
-            all_chunks.extend(chunks)
+        try:
+            for doc in qa_request.documents:
+                print(f"Processing document of type: {doc.type}")
+                try:
+                    chunks = await document_processor.process_document(doc.type, doc.content, doc.filename)
+                    all_chunks.extend(chunks)
+                    print(f"Successfully processed document: {len(chunks)} chunks")
+                except Exception as e:
+                    print(f"Error processing document: {str(e)}")
+                    raise HTTPException(status_code=400, detail=f"Document processing failed: {str(e)}")
+        except HTTPException:
+            raise
+        except Exception as e:
+            print(f"Unexpected error in document processing: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Document processing error: {str(e)}")
         
         print(f"Extracted {len(all_chunks)} text chunks from documents")
         
         # Create vector index
-        vector_search.create_index(all_chunks)
-        print("Created vector index")
+        try:
+            vector_search.create_index(all_chunks)
+            print("Created vector index")
+        except Exception as e:
+            print(f"Error creating vector index: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Vector index creation failed: {str(e)}")
         
         # Process each question
         answers = []
@@ -183,8 +214,14 @@ async def process_documents_and_answer(request: Request):
         print(f"Successfully processed all {len(qa_request.questions)} questions")
         
         # Create response
-        response = SimpleDocumentQAResponse(answers, processing_time)
-        return JSONResponse(content=response.to_dict())
+        try:
+            response = SimpleDocumentQAResponse(answers, processing_time)
+            response_dict = response.to_dict()
+            print("Response created successfully")
+            return JSONResponse(content=response_dict)
+        except Exception as e:
+            print(f"Error creating response: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Response creation failed: {str(e)}")
         
     except ValueError as e:
         print(f"Validation error: {str(e)}")
