@@ -66,13 +66,24 @@ def verify_token(request: Request) -> bool:
     token = auth_header.replace("Bearer ", "")
     return token == BEARER_TOKEN
 
-# Initialize services
+# Initialize services (LLM service will be initialized on first use)
 document_processor = SimpleDocumentProcessor()
 vector_search = VectorSearchService()
-llm_service = LLMService()
+llm_service = None  # Will be initialized when needed
 
 # Log which vector search implementation is being used
 print(f"Using {VECTOR_SEARCH_TYPE} vector search implementation")
+
+def get_llm_service():
+    """Lazy initialization of LLM service"""
+    global llm_service
+    if llm_service is None:
+        try:
+            llm_service = LLMService()
+        except Exception as e:
+            print(f"Warning: Could not initialize LLM service: {str(e)}")
+            raise HTTPException(status_code=500, detail="LLM service not available. Please check GEMINI_API_KEY environment variable.")
+    return llm_service
 
 @app.get("/")
 async def root():
@@ -133,7 +144,8 @@ async def process_documents_and_answer(request: Request):
             context_text = "\n\n".join([chunk.get('text', chunk) for chunk in relevant_chunks])
             
             try:
-                answer_result = await llm_service.generate_answer(question, context_text)
+                llm = get_llm_service()  # Lazy initialization
+                answer_result = await llm.generate_answer(question, context_text)
                 source_texts = [chunk.get('text', chunk)[:200] + "..." for chunk in relevant_chunks[:3]]
                 
                 answers.append(SimpleAnswerResult(

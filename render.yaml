@@ -24,9 +24,9 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: GEMINI_API_KEY
-        sync: false  # Set this manually in Render dashboard
+        value: "" # Must be set in Render dashboard
       - key: BEARER_TOKEN
-        value: your-secure-bearer-token-here
+        value: secure-token-12345
       - key: MAX_CHUNK_SIZE
         value: 2000
       - key: TOP_K_RESULTS
