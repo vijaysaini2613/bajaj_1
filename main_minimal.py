@@ -60,6 +60,12 @@ BEARER_TOKEN = os.getenv("BEARER_TOKEN", "default_token")
 
 def verify_token(request: Request) -> bool:
     """Simple token verification without dependencies"""
+    # For web interface requests, skip authentication
+    user_agent = request.headers.get("user-agent", "").lower()
+    if "mozilla" in user_agent or "chrome" in user_agent or "safari" in user_agent:
+        return True
+    
+    # For API requests, require authentication
     auth_header = request.headers.get("authorization", "")
     if not auth_header.startswith("Bearer "):
         return False
