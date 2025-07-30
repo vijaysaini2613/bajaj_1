@@ -62,15 +62,22 @@ def verify_token(request: Request) -> bool:
     """Simple token verification without dependencies"""
     # For web interface requests, skip authentication
     user_agent = request.headers.get("user-agent", "").lower()
-    if "mozilla" in user_agent or "chrome" in user_agent or "safari" in user_agent:
+    print(f"DEBUG: User-Agent: {user_agent}")
+    
+    if "mozilla" in user_agent or "chrome" in user_agent or "safari" in user_agent or "webkit" in user_agent:
+        print("DEBUG: Browser detected, allowing access")
         return True
     
+    print("DEBUG: Non-browser request, checking auth header")
     # For API requests, require authentication
     auth_header = request.headers.get("authorization", "")
     if not auth_header.startswith("Bearer "):
+        print("DEBUG: No valid Bearer token found")
         return False
     token = auth_header.replace("Bearer ", "")
-    return token == BEARER_TOKEN
+    is_valid = token == BEARER_TOKEN
+    print(f"DEBUG: Token validation result: {is_valid}")
+    return is_valid
 
 # Initialize services (LLM service will be initialized on first use)
 document_processor = SimpleDocumentProcessor()
@@ -107,7 +114,9 @@ async def health_check():
     return {
         "status": "healthy",
         "vector_search_type": VECTOR_SEARCH_TYPE,
-        "environment": os.getenv("ENVIRONMENT", "development")
+        "environment": os.getenv("ENVIRONMENT", "development"),
+        "version": "v2-auth-fixed",
+        "port": os.getenv("PORT", "not-set")
     }
 
 @app.get("/debug/env")
