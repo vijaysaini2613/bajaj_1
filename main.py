@@ -11,7 +11,15 @@ from dotenv import load_dotenv
 from app.models.request_models import DocumentQARequest
 from app.models.response_models import DocumentQAResponse
 from app.services.document_processor import DocumentProcessor
-from app.services.vector_search import VectorSearchService
+
+# Try to import FAISS-based vector search, fallback to lightweight version
+try:
+    from app.services.vector_search import VectorSearchService
+    VECTOR_SEARCH_TYPE = "FAISS"
+except ImportError:
+    from app.services.lightweight_vector_search import LightweightVectorSearch as VectorSearchService
+    VECTOR_SEARCH_TYPE = "Lightweight"
+
 from app.services.llm_service import LLMService
 from app.utils.logger import setup_logger
 
@@ -57,6 +65,9 @@ document_processor = DocumentProcessor()
 vector_search = VectorSearchService()
 llm_service = LLMService()
 
+# Log which vector search implementation is being used
+logger.info(f"Using {VECTOR_SEARCH_TYPE} vector search implementation")
+
 @app.get("/")
 async def root():
     """Serve the main web interface"""
@@ -76,6 +87,7 @@ async def health_check():
         return {
             "status": "healthy",
             "services": services_status,
+            "vector_search_type": VECTOR_SEARCH_TYPE,
             "environment": os.getenv("ENVIRONMENT", "development")
         }
     except Exception as e:
