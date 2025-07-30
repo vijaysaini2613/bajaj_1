@@ -3,7 +3,13 @@ import asyncio
 from typing import Dict, Any, Optional
 import google.generativeai as genai
 
-from app.models.response_models import AnswerResult
+# Simple result class without Pydantic
+class SimpleAnswerResult:
+    def __init__(self, answer: str, confidence: float, reasoning: str = ""):
+        self.answer = answer
+        self.confidence = confidence
+        self.reasoning = reasoning
+
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -47,7 +53,7 @@ Question:
 
 Answer:"""
 
-    async def generate_answer(self, question: str, context: str) -> AnswerResult:
+    async def generate_answer(self, question: str, context: str) -> SimpleAnswerResult:
         """
         Generate an answer for a question using the provided context
         
@@ -56,7 +62,7 @@ Answer:"""
             context: Relevant document context
             
         Returns:
-            AnswerResult with the generated answer and metadata
+            SimpleAnswerResult with the generated answer and metadata
         """
         try:
             logger.info(f"Generating answer for question: {question[:50]}...")
@@ -92,7 +98,7 @@ Answer:"""
             # Generate reasoning
             reasoning = self._generate_reasoning(answer_text, question)
             
-            result = AnswerResult(
+            result = SimpleAnswerResult(
                 question=question,
                 answer=answer_text,
                 confidence=confidence,
@@ -107,7 +113,7 @@ Answer:"""
             logger.error(f"Error generating answer: {str(e)}")
             
             # Return a fallback answer
-            return AnswerResult(
+            return SimpleAnswerResult(
                 question=question,
                 answer="An error occurred while processing this question. Please try again.",
                 confidence=0.0,
@@ -214,7 +220,7 @@ Answer:"""
             questions_and_contexts: List of (question, context) tuples
             
         Returns:
-            List of AnswerResult objects
+            List of SimpleAnswerResult objects
         """
         try:
             logger.info(f"Batch generating {len(questions_and_contexts)} answers")
@@ -232,7 +238,7 @@ Answer:"""
                 if isinstance(result, Exception):
                     question = questions_and_contexts[i][0]
                     logger.error(f"Error in batch answer generation for question {i}: {str(result)}")
-                    final_results.append(AnswerResult(
+                    final_results.append(SimpleAnswerResult(
                         question=question,
                         answer="An error occurred while processing this question.",
                         confidence=0.0,

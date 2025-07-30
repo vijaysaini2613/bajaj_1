@@ -4,8 +4,8 @@
     env: python
     plan: starter
     runtime: python-3.11.9
-    buildCommand: pip install --no-cache-dir -r requirements-minimal.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install --no-cache-dir -r requirements-ultra.txt
+    startCommand: uvicorn main_minimal:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /healthiguration
 # This file is used by Render.com for deployment
 

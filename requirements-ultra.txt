@@ -1,0 +1,19 @@
+# Absolutely minimal requirements - NO compilation whatsoever
+# This should work on any Python environment
+
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+google-generativeai==0.3.2
+
+# Document processing - pure Python
+pypdf==3.17.4
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Simple auth without cryptography
+python-dotenv==1.0.0
+aiofiles==23.2.1
+
+# Note: Removed pydantic and python-jose to avoid Rust compilation
+# Using basic request/response handling instead
