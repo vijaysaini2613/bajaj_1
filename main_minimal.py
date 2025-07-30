@@ -79,10 +79,15 @@ def get_llm_service():
     global llm_service
     if llm_service is None:
         try:
+            print("Initializing LLM service...")
             llm_service = LLMService()
+            print("LLM service initialized successfully")
         except Exception as e:
-            print(f"Warning: Could not initialize LLM service: {str(e)}")
-            raise HTTPException(status_code=500, detail="LLM service not available. Please check GEMINI_API_KEY environment variable.")
+            print(f"Error initializing LLM service: {str(e)}")
+            raise HTTPException(
+                status_code=500, 
+                detail=f"LLM service not available: {str(e)}. Please check GEMINI_API_KEY environment variable."
+            )
     return llm_service
 
 @app.get("/")
@@ -97,6 +102,17 @@ async def health_check():
         "status": "healthy",
         "vector_search_type": VECTOR_SEARCH_TYPE,
         "environment": os.getenv("ENVIRONMENT", "development")
+    }
+
+@app.get("/debug/env")
+async def debug_env():
+    """Debug endpoint to check environment variables (remove in production)"""
+    return {
+        "has_gemini_key": "GEMINI_API_KEY" in os.environ,
+        "gemini_key_length": len(os.getenv("GEMINI_API_KEY", "")) if os.getenv("GEMINI_API_KEY") else 0,
+        "has_bearer_token": "BEARER_TOKEN" in os.environ,
+        "environment": os.getenv("ENVIRONMENT", "development"),
+        "available_env_vars": [key for key in os.environ.keys() if not key.startswith("_")]
     }
 
 @app.post("/hackrx/run")
@@ -172,10 +188,12 @@ async def process_documents_and_answer(request: Request):
         
     except ValueError as e:
         print(f"Validation error: {str(e)}")
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=422, detail=f"Validation error: {str(e)}")
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
